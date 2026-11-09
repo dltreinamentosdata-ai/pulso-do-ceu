@@ -1,6 +1,6 @@
-# DEFINE: Pulso do Céu — P1
+# DEFINE: Pulso do Céu
 
-> Produto de dados unificado sobre alertas astronômicos transientes do NASA GCN: ingestão em tempo real de múltiplos tópicos Kafka, histórico bruto, visão unificada de eventos, visão das Circulars, quarentena, controle de acesso com máscara de PII, métricas operacionais e dashboard.
+> Produto de dados unificado sobre alertas astronômicos transientes do NASA GCN: ingestão em tempo real de múltiplos tópicos Kafka, histórico bruto, visão unificada de eventos, visão das Circulars, quarentena, controle de acesso com máscara de PII, métricas 1–6, Genie Space e dashboard.
 
 ## Identificação
 
@@ -8,7 +8,7 @@
 |-------|-------|
 | **Feature** | PULSO_CEU |
 | **Tamanho** | Complexo — ingestão multi-formato em tempo real (JSON Unified, JSON LVK, VOEvent XML, Circulars), múltiplas camadas de saída, restrição OAuth na plataforma, controle de acesso com PII e ADR necessário |
-| **Jira** | aguardando (Q1.3) |
+| **Jira** | pendente |
 | **Data** | 2026-11-09 |
 | **Status** | Rascunho |
 
@@ -19,7 +19,7 @@
 | Fonte | Link | O que foi usado |
 |-------|------|-----------------|
 | Confluence: Upstream — Pulso do Céu v5 | https://dltreinamentos-aidata-544385d7.atlassian.net/wiki/spaces/~71202015da5781da3d47a0badd62f9232c15e4/pages/360450 | Seções 1–12 e Anexo A |
-| Confluence: Downstream — Pulso do Céu v2 | https://dltreinamentos-aidata-544385d7.atlassian.net/wiki/spaces/~71202015da5781da3d47a0badd62f9232c15e4/pages/557058 | Seções 1–9 (mapeamento decidido; aprovação pelo engenheiro pendente — Q1.1) |
+| Confluence: Downstream — Pulso do Céu v2 | https://dltreinamentos-aidata-544385d7.atlassian.net/wiki/spaces/~71202015da5781da3d47a0badd62f9232c15e4/pages/557058 | Seções 1–9 (mapeamento decidido; aprovado pelo engenheiro em Q1.1) |
 
 ---
 
@@ -33,10 +33,10 @@
 
 | ID | Pergunta, com a recomendação | Resposta do usuário |
 |----|------------------------------|---------------------|
-| Q1.1 | O documento Downstream v2 está com aprovação pendente pelo engenheiro responsável. Como engenheiro responsável, você aprova a v2 do Downstream para servir de base ao Define? Caso discorde de alguma decisão de mapeamento da seção 5, liste os pontos. (Recomendo: aprovar v2 integralmente, para desbloqueio do Define.) | "aguardando" |
-| Q1.2 | O escopo desta spec deve ser P1 (histórico bruto, visão unificada, Circulars, quarentena, grupos de acesso e máscara, métricas 1–4 e dashboard) ou P1 + P2 (acrescenta Genie Space e métricas 5–6)? (Recomendo: somente P1, com P2 como feature separada.) | "aguardando" |
-| Q1.3 | Há chave de Jira para este épico ou feature (ex.: PDC-1)? | "aguardando" |
-| Q1.4 | O nome da feature para os artefatos (DEFINE_{FEATURE}.md, branch, state) deve ser `PULSO_CEU` ou `PULSO_CEU_P1`? (Recomendo: `PULSO_CEU_P1` se o escopo for só P1; `PULSO_CEU` se cobrir o produto completo.) | "aguardando" |
+| Q1.1 | O documento Downstream v2 está com aprovação pendente pelo engenheiro responsável. Como engenheiro responsável, você aprova a v2 do Downstream para servir de base ao Define? Caso discorde de alguma decisão de mapeamento da seção 5, liste os pontos. (Recomendo: aprovar v2 integralmente, para desbloqueio do Define.) | "sim, aprovo o downstream v2 como está" |
+| Q1.2 | O escopo desta spec deve ser P1 (histórico bruto, visão unificada, Circulars, quarentena, grupos de acesso e máscara, métricas 1–4 e dashboard) ou P1 + P2 (acrescenta Genie Space e métricas 5–6)? (Recomendo: somente P1, com P2 como feature separada.) | "P1+P2, a prioridade de cada requisito segue o upstream item 6" |
+| Q1.3 | Há chave de Jira para este épico ou feature (ex.: PDC-1)? | "pendente" |
+| Q1.4 | O nome da feature para os artefatos (arquivo DEFINE, branch e state) deve ser `PULSO_CEU` ou `PULSO_CEU_P1`? (Recomendo: `PULSO_CEU_P1` se o escopo for só P1; `PULSO_CEU` se cobrir o produto completo.) | "PULSO_CEU" |
 
 ---
 
@@ -59,7 +59,9 @@ Quem acompanha o céu transiente precisa consultar dezenas de tópicos Kafka do 
 
 ## Escopo
 
-### Dentro do escopo — P1 (aguardando confirmação Q1.2)
+### Dentro do escopo
+
+**P1 — primeira entrega**
 
 - Ingestão contínua de todos os tópicos do Anexo A
 - Histórico bruto: toda mensagem dos tópicos do Anexo A, menos o heartbeat, guardada como chegou
@@ -73,9 +75,14 @@ Quem acompanha o céu transiente precisa consultar dezenas de tópicos Kafka do 
 - Dashboard cobrindo as métricas 1–4 (Upstream §6)
 - Alertas de teste guardados, marcados e excluídos das métricas de negócio (Upstream §7)
 
+**P2 — segunda entrega**
+
+- Métrica 5: coincidências multimensageiro — eventos de missões diferentes próximos no tempo e no céu (Upstream §6)
+- Métrica 6: resposta da comunidade — Circulars por evento e tempo até a primeira Circular (Upstream §6)
+- Genie Space em cima das métricas 1–6 (Upstream §6)
+
 ### Fora do escopo
 
-- Genie Space e métricas 5–6 (coincidências multimensageiro e resposta da comunidade) — P2, aguardando Q1.2
 - Arquitetura de ingestão (escolha entre opções A, B1, B2, C do Downstream §7) — decisão do ADR
 - Leitura de sondagem do Kafka — pré-Build (Downstream §8)
 - Lista de sinônimos do GCN (`/api/synonym/circulars`) — Downstream §5.5
@@ -142,7 +149,7 @@ Quem acompanha o céu transiente precisa consultar dezenas de tópicos Kafka do 
 - **R4.2** Somente o grupo `pulso-ceu-admins` DEVE ver o email sem máscara.
 - **R4.3** A máscara DEVE valer em todo lugar onde o email aparece, inclusive no histórico bruto e na quarentena.
 - **R4.4** Fora dos grupos `pulso-ceu-engenharia` e `pulso-ceu-admins`, nenhum usuário DEVE ver o histórico bruto.
-- **R4.5** Os grupos `pulso-ceu-consumidores`, `pulso-ceu-engenharia` e `pulso-ceu-admins` DEVEM ser criados como grupos do Unity Catalog com os acessos da tabela do Upstream §5.
+- **R4.5** O produto DEVE criar os grupos `pulso-ceu-consumidores`, `pulso-ceu-engenharia` e `pulso-ceu-admins` como grupos do Unity Catalog, com os acessos da tabela do Upstream §5.
 
 ### R5: Métricas e dashboard — P1
 
@@ -159,6 +166,35 @@ Quem acompanha o céu transiente precisa consultar dezenas de tópicos Kafka do 
 - **R5.7** Para cada pergunta de referência da seção 10 do Upstream, a resposta do dashboard DEVE bater com a consulta direta nas métricas.
 - **R5.8** Alertas de teste NÃO DEVEM entrar nas métricas de negócio; a operação DEVE ver a contagem de alertas de teste por missão numa métrica própria.
 
+### R6: Coincidências multimensageiro — P2
+
+**Por quê:** a detecção de eventos simultâneos de múltiplos mensageiros é o principal sinal de astrofísica multimessenger. (Upstream §6)
+
+**Critérios de aceite (EARS):**
+
+- **R6.1** QUANDO dois eventos de missões diferentes tiverem horários de disparo a até 500 segundos um do outro E a distância angular entre eles for menor que a soma dos erros de localização ENTÃO a métrica DEVE registrá-los como coincidência multimensageiro.
+- **R6.2** QUANDO um dos eventos não tiver posição ou não tiver erro de localização ENTÃO a coincidência DEVE ser avaliada só pelo tempo e marcada como temporal.
+- **R6.3** SE um evento não tiver horário de disparo, ou for retratado, ou for de teste ENTÃO DEVE ser excluído do cálculo de coincidências.
+
+### R7: Resposta da comunidade — P2
+
+**Por quê:** o volume de Circulars e o tempo até a primeira Circular medem o engajamento científico com cada evento. (Upstream §6)
+
+**Critérios de aceite (EARS):**
+
+- **R7.1** A métrica DEVE contar as Circulars por evento pelo `event_id` da Circular, sem exigir ligação a uma notice.
+- **R7.2** A métrica DEVE calcular o tempo até a primeira Circular para eventos da LIGO/Virgo/KAGRA e do IceCube, medido do horário do disparo do evento até o `created_on` da primeira Circular com o `event_id` correspondente.
+
+### R8: Genie Space — P2
+
+**Por quê:** o Genie Space torna as métricas 1–6 consultáveis em linguagem natural para usuários sem SQL. (Upstream §6)
+
+**Critérios de aceite (EARS):**
+
+- **R8.1** O Genie Space DEVE responder perguntas em linguagem natural sobre as métricas 1–6.
+- **R8.2** Para cada pergunta de referência da seção 10 do Upstream, a resposta do Genie DEVE bater com a consulta direta nas métricas.
+- **R8.3** O Genie Space DEVE ser acessível ao grupo `pulso-ceu-consumidores`.
+
 ---
 
 ## Requisitos implícitos de dados
@@ -166,15 +202,15 @@ Quem acompanha o céu transiente precisa consultar dezenas de tópicos Kafka do 
 | Dimensão | Como fica nesta feature |
 |----------|-------------------------|
 | Idempotência e reprocessamento | R2.10, R2.11, R3.5: reprocessar a partir do histórico bruto não duplica nem apaga |
-| Dado atrasado ou fora de ordem | Estado do evento vem do alerta de maior `alert_time`; empate desempatado por `kafka_time`, depois por partição e offset (Downstream §5.3 regra 4) |
+| Dado atrasado ou fora de ordem | S-1 (Downstream §5.3 regra 4): estado do evento vem do alerta de maior `alert_time`; empate por `kafka_time`, depois por partição e offset |
 | Duplicidade | Chave do evento = `event_uid` (Downstream §5.3 regra 1); R2.5: mesma mensagem recebida duas vezes aparece uma vez só; chave da Circular = `circular_id` + maior `version` |
 | Evolução de schema | R2.6: campo novo fica no histórico bruto e não para o produto |
 | Backfill e carga histórica | R3.1: arquivo histórico das Circulars baixado ao ligar; Kafka sem retenção garantida — histórico bruto é a única cópia |
 | Qualidade (nulos, chaves, faixas de valor) | R2.3: coordenada fora da faixa → quarentena; valor fora da faixa em `error_deg`, `far` ou `p_astro` → nulo na coluna, mensagem segue (Downstream §5.3 regra 11) |
 | Falha parcial e retomada | R1.4: ao voltar de uma falha, continua de onde parou |
-| PII, grants e Unity Catalog | R4.1–R4.5: grupos de acesso e máscara do email; Unity Catalog requerido |
+| PII, grants e Unity Catalog | R4.1, R4.2, R4.3, R4.4, R4.5: grupos de acesso e máscara do email; Unity Catalog requerido |
 | Freshness e SLA | R2.1: alerta na visão unificada em até 5 minutos da chegada ao Kafka do GCN |
-| Volume, custo e compute | Baixo volume fora do heartbeat (~centenas de notices/dia + ~8 Circulars/dia + ~86.400 heartbeats/dia); compute e trigger são decisões do ADR |
+| Volume, custo e compute | não se aplica a critérios nesta fase: volume baixo (~centenas de notices/dia, ~8 Circulars/dia, ~86.400 heartbeats/dia); compute e trigger são decisões do ADR |
 | Observabilidade e alerta | R1.7: alerta de email se heartbeat parar >5 min; R5.5: dashboard mostra horário da última mensagem |
 
 ---
@@ -239,7 +275,7 @@ Quem acompanha o céu transiente precisa consultar dezenas de tópicos Kafka do 
 |---------|-------|
 | **Onde fica no projeto** | `pulso-do-ceu/pulso-do-ceu/` (bundle raiz) |
 | **Skills Databricks** | A definir no ADR (`@sdd-staff-engineer`) |
-| **Infraestrutura nova** | Credencial GCN em secret scope; grupos Unity Catalog; recursos no bundle (job ou pipeline, warehouse, dashboard) |
+| **Infraestrutura nova** | Credencial GCN em secret scope; grupos Unity Catalog; recursos no bundle (job ou pipeline, warehouse, dashboard, Genie Space) |
 | **Trigger** | Ingestão deve ser contínua — o GCN proíbe cron e cliente curto repetido (Upstream §4) |
 | **Compute** | A definir no ADR — restrição de OAuth na plataforma (Downstream §6) |
 
@@ -249,16 +285,16 @@ Quem acompanha o céu transiente precisa consultar dezenas de tópicos Kafka do 
 
 | Área | Opções consideradas | Decisão | Quem decidiu |
 |------|---------------------|---------|--------------|
-| Escopo da spec: P1 ou P1+P2 | A. Spec única P1+P2; B. Spec P1 agora, P2 como feature separada | aguardando Q1.2 | aguardando |
-| Nome da feature para artefatos | `PULSO_CEU`; `PULSO_CEU_P1` | aguardando Q1.4 | aguardando |
-| Aprovação do Downstream v2 | Aprovado integralmente; aprovado com ressalvas na seção 5 | aguardando Q1.1 | aguardando |
-| Decomposição em sub-features | Feature única cobrindo P1; split em ingestão + processamento + métricas + dashboard | Recomendo feature única: o PO quebra em histórias no TASKS | a decidir com o usuário |
+| Escopo da spec: P1 ou P1+P2 | A. Spec única P1+P2; B. Spec P1 agora, P2 como feature separada | Spec única P1+P2; prioridade segue Upstream §6 (Q1.2) | usuário |
+| Nome da feature para artefatos | `PULSO_CEU`; `PULSO_CEU_P1` | `PULSO_CEU`, por cobrir P1+P2 (Q1.4) | usuário |
+| Aprovação do Downstream v2 | Aprovado integralmente; aprovado com ressalvas na seção 5 | Aprovado integralmente (Q1.1) | usuário |
+| Decomposição em sub-features | Feature única cobrindo P1+P2; split em ingestão + processamento + métricas + dashboard | Feature única PULSO_CEU: o PO quebra em histórias no TASKS (Q1.2 + Q1.4) | usuário |
 
 ## Diferenças em relação à fonte
 
 | O que a fonte diz | O que esta spec faz | Por quê | Aprovado por |
 |-------------------|---------------------|---------|--------------|
-| Downstream §7–8: opções de ingestão e riscos | Não entram como critérios | A arquitetura de ingestão não é decidida no Define — é insumo do ADR, conforme o próprio Downstream | n/a |
+| Confluence › Downstream §7–8: opções de ingestão e riscos | Não entram como critérios | A arquitetura de ingestão não é decidida no Define — é insumo do ADR, conforme o próprio Downstream | n/a |
 
 ---
 
@@ -266,15 +302,12 @@ Quem acompanha o céu transiente precisa consultar dezenas de tópicos Kafka do 
 
 | ID | Padrão escolhido | Motivo | Origem | Se estiver errada |
 |----|------------------|--------|--------|-------------------|
-| S-1 | Mapeamento de dados conforme Downstream v2, seção 5 | Documento preparado pelo engenheiro com base nos schemas e exemplos oficiais do GCN | usuário delegou (Q1.1) — aguardando | Algum critério R2.x ou R3.x precisa ser revisado |
+| S-1 | Mapeamento de dados conforme Downstream v2, seção 5 | Documento preparado pelo engenheiro com base nos schemas e exemplos oficiais do GCN | usuário delegou (Q1.1): "sim, aprovo o downstream v2 como está" | Algum critério R2.x ou R3.x precisa ser revisado |
 | S-2 | A leitura de sondagem (Downstream §8) confirmará as regras de mapeamento antes do Build | Nenhuma mensagem real foi lida durante o Define | usuário delegou (Q1.1) | Alguma regra da seção 5.3 precisa de atualização e o Downstream ganha versão nova |
 
 ## Perguntas em aberto
 
-- Q1.1: aprovação do Downstream v2 pelo engenheiro responsável
-- Q1.2: escopo P1 ou P1+P2
-- Q1.3: chave Jira
-- Q1.4: nome da feature (`PULSO_CEU` ou `PULSO_CEU_P1`)
+- Q1.3: chave Jira (pendente)
 
 ---
 
@@ -282,42 +315,52 @@ Quem acompanha o céu transiente precisa consultar dezenas de tópicos Kafka do 
 
 | Critério | Origem |
 |----------|--------|
-| R1.1 | Upstream §6: "toda mensagem dos tópicos do Anexo A, menos o heartbeat, fica guardada como chegou"; §10 critério 1 |
-| R1.2 | Upstream §6: "O heartbeat fica guardado à parte, só para a operação"; §10 critério 2 |
-| R1.3 | Upstream §4: "Tópicos de teste não entram: os que têm `.test.` no nome e os tipos Classic terminados em `_TEST`, além de `TEST_COORDS`" |
-| R1.4 | Upstream §9: "Se o produto parar por falha, ao voltar ele continua de onde parou" |
-| R1.5 | Upstream §4 + Downstream §5.4: "O arquivo histórico é baixado de novo toda vez que o produto liga" |
-| R1.6 | Upstream §4: "A credencial é segredo e nunca aparece no código" |
-| R1.7 | Upstream §9: "se o heartbeat ficar mais de 5 minutos sem chegar, o time de engenharia recebe um aviso por email" |
-| R2.1 | Upstream §3: "um alerta publicado no GCN aparece no dashboard em até 5 minutos, contados a partir do horário em que a mensagem chegou ao Kafka do GCN" |
-| R2.2 | Downstream §5.2 (aprovado em Q1.1) |
-| R2.3 | Upstream §9: "Mensagem que não for lida no formato esperado vai para a quarentena, com o motivo" + "Coordenada fora da faixa vai para a quarentena" |
-| R2.4 | Upstream §7: "Alerta de teste não entra nas métricas de negócio" |
-| R2.5 | Upstream §9: "A mesma mensagem recebida duas vezes aparece uma vez só" |
-| R2.6 | Upstream §9: "Um campo novo num schema do GCN não para o produto" |
-| R2.7 | Upstream §7: "Um evento retratado não entra nas contagens de eventos" + "ele continua na visão unificada de eventos, marcado como retratado" |
-| R2.8 | Downstream §5.3 regra 2: "O JSON alimenta a visão unificada. Os tipos Classic que repetem o mesmo evento ficam só no histórico bruto" |
-| R2.9 | Upstream §9: "Um tópico do Anexo A indisponível no GCN não para o produto" |
-| R2.10 | Upstream §10 critério 5 |
-| R2.11 | Upstream §10 critério 6 |
-| R3.1 | Upstream §10 critério 7 |
-| R3.2 | Upstream §10 critério 8 |
-| R3.3 | Upstream §7: "Circular editada: vale a versão de maior version de cada Circular. Com o mesmo version, vale a última mensagem recebida" |
-| R3.4 | Downstream §5.4 (aprovado em Q1.1) |
-| R3.5 | Upstream §10 critério 5 |
-| R4.1 | Upstream §4: "O email é dado pessoal e deve aparecer mascarado para quem não é do grupo de administradores" |
-| R4.2 | Upstream §5: "Só o grupo de administradores vê o email sem máscara" |
-| R4.3 | Upstream §4: "A máscara vale em todo lugar onde o email aparece, inclusive no histórico bruto e na quarentena" |
-| R4.4 | Upstream §5: "Fora dos grupos de engenharia e de administradores, ninguém vê o histórico bruto" |
-| R4.5 | Upstream §5 (tabela de grupos de acesso) |
-| R5.1 | Upstream §6 métrica 1 |
-| R5.2 | Upstream §6 métrica 2 |
-| R5.3 | Upstream §6 métrica 3 |
-| R5.4 | Upstream §6 métrica 4 |
-| R5.5 | Upstream §9: "O dashboard mostra o horário da última mensagem recebida" |
-| R5.6 | Upstream §7: "O dashboard deixa a pessoa mudar o limite de boa localização" |
-| R5.7 | Upstream §3: indicadores de sucesso |
-| R5.8 | Upstream §7: alertas de teste fora das métricas + métrica própria para operação |
+| pedido | pedido: "Especifique o Pulso do Céu" → spec PULSO_CEU cobre P1+P2 (R1–R8) |
+| pedido | pedido: "Projeto: /Workspace/.../pulso-do-ceu" → Contexto técnico: Onde fica no projeto |
+| R1.1 | Confluence › Upstream §6: "toda mensagem dos tópicos do Anexo A, menos o heartbeat, fica guardada como chegou" + Confluence › Upstream §10 critério 1 |
+| R1.2 | Confluence › Upstream §6: "O heartbeat fica guardado à parte, só para a operação" + Confluence › Upstream §10 critério 2 |
+| R1.3 | Confluence › Upstream §4: "Tópicos de teste não entram: os que têm `.test.` no nome e os tipos Classic terminados em `_TEST`, além de `TEST_COORDS`" |
+| R1.4 | Confluence › Upstream §9: "Se o produto parar por falha, ao voltar ele continua de onde parou" |
+| R1.5 | Confluence › Upstream §4 + Downstream §5.4: "O arquivo histórico é baixado de novo toda vez que o produto liga" |
+| R1.6 | Confluence › Upstream §4: "A credencial é segredo e nunca aparece no código" |
+| R1.7 | Confluence › Upstream §9: "se o heartbeat ficar mais de 5 minutos sem chegar, o time de engenharia recebe um aviso por email" |
+| R2.1 | Confluence › Upstream §3: "um alerta publicado no GCN aparece no dashboard em até 5 minutos, contados a partir do horário em que a mensagem chegou ao Kafka do GCN" |
+| R2.2 | Confluence › Downstream §5.2 (aprovado em Q1.1) |
+| R2.3 | Confluence › Upstream §9: "Mensagem que não for lida no formato esperado vai para a quarentena, com o motivo" + "Coordenada fora da faixa vai para a quarentena" |
+| R2.4 | Confluence › Upstream §7: "Alerta de teste não entra nas métricas de negócio" |
+| R2.5 | Confluence › Upstream §9: "A mesma mensagem recebida duas vezes aparece uma vez só" |
+| R2.6 | Confluence › Upstream §9: "Um campo novo num schema do GCN não para o produto" |
+| R2.7 | Confluence › Upstream §7: "Um evento retratado não entra nas contagens de eventos" + "ele continua na visão unificada de eventos, marcado como retratado" |
+| R2.8 | Confluence › Downstream §5.3 regra 2: "O JSON alimenta a visão unificada. Os tipos Classic que repetem o mesmo evento ficam só no histórico bruto" |
+| R2.9 | Confluence › Upstream §9: "Um tópico do Anexo A indisponível no GCN não para o produto" |
+| R2.10 | Confluence › Upstream §10 critério 5 |
+| R2.11 | Confluence › Upstream §10 critério 6 |
+| R3.1 | Confluence › Upstream §10 critério 7 |
+| R3.2 | Confluence › Upstream §10 critério 8 |
+| R3.3 | Confluence › Upstream §7: "Circular editada: vale a versão de maior version de cada Circular. Com o mesmo version, vale a última mensagem recebida" |
+| R3.4 | Confluence › Downstream §5.4 (aprovado em Q1.1) |
+| R3.5 | Confluence › Upstream §10 critério 5 |
+| R4.1 | Confluence › Upstream §4: "O email é dado pessoal e deve aparecer mascarado para quem não é do grupo de administradores" |
+| R4.2 | Confluence › Upstream §5: "Só o grupo de administradores vê o email sem máscara" |
+| R4.3 | Confluence › Upstream §4: "A máscara vale em todo lugar onde o email aparece, inclusive no histórico bruto e na quarentena" |
+| R4.4 | Confluence › Upstream §5: "Fora dos grupos de engenharia e de administradores, ninguém vê o histórico bruto" |
+| R4.5 | Confluence › Upstream §5 (tabela de grupos de acesso) |
+| R5.1 | Confluence › Upstream §6 métrica 1 |
+| R5.2 | Confluence › Upstream §6 métrica 2 |
+| R5.3 | Confluence › Upstream §6 métrica 3 |
+| R5.4 | Confluence › Upstream §6 métrica 4 |
+| R5.5 | Confluence › Upstream §9: "O dashboard mostra o horário da última mensagem recebida" |
+| R5.6 | Confluence › Upstream §7: "O dashboard deixa a pessoa mudar o limite de boa localização" |
+| R5.7 | Confluence › Upstream §3: indicadores de sucesso |
+| R5.8 | Confluence › Upstream §7: alertas de teste fora das métricas + métrica própria para operação |
+| R6.1 | Confluence › Upstream §7: "Coincidência multimensageiro: dois eventos de missões diferentes, com os horários de disparo a até 500 segundos um do outro e distância no céu menor que a soma dos erros de localização" |
+| R6.2 | Confluence › Upstream §7: "Evento sem posição ou sem erro de localização entra na coincidência só pelo tempo. A coincidência só pelo tempo fica marcada como temporal" |
+| R6.3 | Confluence › Upstream §7: "Evento sem horário do disparo fica fora da coincidência" + "Evento retratado ou de teste fica fora da coincidência" |
+| R7.1 | Confluence › Upstream §7: "Circulars por evento: contadas pelo nome do evento que o GCN dá à Circular, sem precisar ligar a Circular a uma notice" |
+| R7.2 | Confluence › Upstream §7: "Tempo até a primeira Circular: vai do horário do disparo do evento até a primeira Circular com o nome dele. O tempo até a primeira Circular vale só para eventos da LIGO/Virgo/KAGRA e do IceCube" |
+| R8.1 | Confluence › Upstream §6: "Consumo: um dashboard e um Genie Space em cima das métricas" |
+| R8.2 | Confluence › Upstream §3: "Para cada pergunta de referência da seção 10, a resposta do Genie bate com a consulta direta nas métricas" |
+| R8.3 | Confluence › Upstream §5 (tabela de grupos de acesso: `pulso-ceu-consumidores` acessa métricas, dashboard e Genie Space) |
 
 ---
 

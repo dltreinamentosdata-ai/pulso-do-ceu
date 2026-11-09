@@ -30,7 +30,7 @@
 
 | Fase | Status | Artefato | Gate | Concluída em |
 |------|--------|----------|------|--------------|
-| Define | em andamento | `pulso-do-ceu/docs/specs/DEFINE_PULSO_CEU.md` | pendente | pendente |
+| Define | em andamento | `pulso-do-ceu/docs/specs/DEFINE_PULSO_CEU.md` | `sdd_gates define DEFINE_PULSO_CEU.md: OK — 2 aviso(s)` | pendente |
 | ADR | pendente | `pulso-do-ceu/docs/adr/ADR_PULSO_CEU.md` | pendente | pendente |
 | Planejamento (PO) | pendente | `pulso-do-ceu/docs/planning/TASKS_PULSO_CEU.md` | pendente | pendente |
 | Design | pendente | `pulso-do-ceu/docs/designs/DESIGN_PULSO_CEU.md` | pendente | pendente |
